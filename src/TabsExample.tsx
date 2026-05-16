@@ -30,7 +30,7 @@ export default function TabsExample() {
         <Text style={styles.text}>{active.body}</Text>
       </View>
 
-      <AccessibleTabBar label="Tab bar" style={styles.tabBar}>
+      <AccessibleTabBar label="Tab bar" debug style={styles.tabBar}>
         <View style={styles.tabRow}>
           {TABS.map((tab, index) => (
             <Tab
