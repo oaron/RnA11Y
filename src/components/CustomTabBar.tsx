@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -5,6 +6,9 @@ import {
   AccessibleTabBar,
   useAccessibleTabProps,
 } from 'react-native-accessibility-tabs';
+
+const LIB_VERSION = require('react-native-accessibility-tabs/package.json')
+  .version as string;
 
 interface TabProps {
   label: string;
@@ -40,13 +44,24 @@ export default function CustomTabBar({
 }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   const total = state.routes.length;
+  const [diag] = useState<string>(`lib v${LIB_VERSION} loaded`);
+
+  useEffect(() => {
+    console.warn('[CustomTabBar diag] mount', `lib v${LIB_VERSION}`);
+  }, []);
 
   return (
     <AccessibleTabBar
       label="Tab bar"
-      debug
       style={[styles.tabBar, { paddingBottom: Math.max(insets.bottom, 10) }]}
     >
+      <View
+        style={styles.diag}
+        accessible={true}
+        accessibilityLabel={`Diagnostic: ${diag}`}
+      >
+        <Text style={styles.diagText}>{diag}</Text>
+      </View>
       <View style={styles.tabRow}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
@@ -105,4 +120,10 @@ const styles = StyleSheet.create({
   },
   tabLabel: { fontSize: 14, color: '#888', fontWeight: '500' },
   tabLabelSelected: { color: '#007AFF', fontWeight: '700' },
+  diag: {
+    backgroundColor: '#fffbcc',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  diagText: { fontSize: 11, color: '#000' },
 });
