@@ -44,6 +44,7 @@ export default function CustomTabBar({
   return (
     <AccessibleTabBar
       label="Tab bar"
+      debug
       style={[styles.tabBar, { paddingBottom: Math.max(insets.bottom, 10) }]}
     >
       <View style={styles.tabRow}>

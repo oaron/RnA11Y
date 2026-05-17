@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator<TabParamList>();
 export default function AppTabs() {
   return (
     <Tab.Navigator
-      tabBar={CustomTabBar}
+      tabBar={(props) => <CustomTabBar {...props} />}
       screenOptions={{ headerShown: false }}
     >
       <Tab.Screen
